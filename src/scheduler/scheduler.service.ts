@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { cronSchedules } from 'src/config/cron.config';
 import { JobOfferService } from 'src/job-offer/job-offer.service';
 
 @Injectable()
@@ -8,9 +9,9 @@ export class SchedulerService {
 
   constructor(private readonly jobOffersService: JobOfferService) {}
 
-  @Cron(process.env.JOB_SYNC_CRON || CronExpression.EVERY_HOUR)
+  @Cron(cronSchedules.syncJobOffers)
   async handleJobOfferSync(): Promise<void> {
-    this.logger.log('⏳ Scheduled job started: Sync job offers');
+    this.logger.log('Scheduled job started: Sync job offers');
 
     try {
       await this.syncAllJobOffers();

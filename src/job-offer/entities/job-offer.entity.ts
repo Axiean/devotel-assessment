@@ -2,8 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity('job_offers')
 export class JobOffer {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Index()
   @Column()
@@ -21,7 +21,7 @@ export class JobOffer {
   @Column({ type: 'int', nullable: true })
   salaryMax: number | null;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 4, nullable: true })
   currency: string | null;
 
   @Column({ type: 'timestamp' })
@@ -30,7 +30,6 @@ export class JobOffer {
   @Column('simple-array', { nullable: true })
   skills: string[] | null;
 
-  @Index()
   @Column({ unique: true })
   externalId: string;
 

@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
+import * as path from 'path';
 import { isProductionEnvironment } from 'src/utils';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
@@ -18,7 +19,7 @@ export const dataSourceOptions: DataSourceOptions = {
   username: configService.get<string>('DB_USER'),
   password: configService.get<string>('DB_PASS'),
   database: configService.get<string>('DB_NAME'),
-  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+  entities: [path.join(__dirname, '..', '**', '*.entity.{ts,js}')],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   synchronize: isProductionEnvironment() ? false : true,
 };
