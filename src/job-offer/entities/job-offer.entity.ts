@@ -24,7 +24,7 @@ export class JobOffer {
   @Column({ type: 'varchar', length: 4, nullable: true })
   currency: string | null;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   postedDate: Date;
 
   @Column('simple-array', { nullable: true })
@@ -33,6 +33,6 @@ export class JobOffer {
   @Column({ unique: true })
   externalId: string;
 
-  @Column()
-  source: string;
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  source: string | null;
 }
