@@ -21,6 +21,13 @@ export class JobOfferService {
     private readonly dataSource: DataSource,
   ) {}
 
+  /**
+   * Retrieves a paginated and filtered list of job offers.
+   * This method constructs a dynamic query based on the provided DTO.
+   *
+   * @param getJobOffersDto - DTO containing filter and pagination parameters.
+   * @returns A promise that resolves to a paginated response of job offers.
+   */
   async getJobOffers(
     getJobOffersDto: GetJobOffersDto,
   ): Promise<PaginatedJobOffersResponse> {
@@ -60,6 +67,11 @@ export class JobOfferService {
     return { data, total, page, limit };
   }
 
+  /**
+   * Fetches job offers from all registered providers and saves new ones to the database.
+   * It uses a transaction to ensure that the entire sync operation is atomic.
+   * If any part of the sync fails, the entire transaction will be rolled back.
+   */
   async syncAll() {
     const offers = await this.jobProviderService.fetchAll();
 

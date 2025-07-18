@@ -16,27 +16,23 @@ async function bootstrap() {
 
   app.use(helmet());
 
+  // Set a global prefix for all routes to 'api'.
+  // This is a good practice for versioning and organizing your API.
   app.setGlobalPrefix('api');
 
+  // Register a global exception filter to catch all unhandled exceptions
+  // and provide a consistent, structured error response.
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
 
+  // Use a global validation pipe to automatically validate incoming request bodies (DTOs).
+  // `transform: true` automatically transforms payloads to DTO instances.
+  // `whitelist: true` strips any properties that do not have decorators in the DTO.
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Devotel')
     .setDescription('Devotel assessment API')
-    // .addBearerAuth(
-    //   {
-    //     name: 'Authorization',
-    //     description: 'Please enter token ',
-    //     scheme: 'Bearer',
-    //     type: 'http',
-    //     in: 'Header',
-    //     bearerFormat: 'Bearer',
-    //   },
-    //   'access-token',
-    // )
     .setVersion('0.1')
     .addServer('/')
     .build();

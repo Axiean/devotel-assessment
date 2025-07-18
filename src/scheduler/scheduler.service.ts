@@ -9,7 +9,13 @@ export class SchedulerService {
 
   constructor(private readonly jobOffersService: JobOfferService) {}
 
+  // This cron job is scheduled based on the SYNC_JOB_OFFERS_CRON_SCHEDULE environment variable.
+  // By default, it runs every hour.
   @Cron(cronSchedules.syncJobOffers)
+  /**
+   * This method is triggered by the cron scheduler.
+   * It initiates the synchronization of job offers from all providers.
+   */
   async handleJobOfferSync(): Promise<void> {
     this.logger.log('Scheduled job started: Sync job offers');
 

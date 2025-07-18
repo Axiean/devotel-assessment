@@ -13,6 +13,14 @@ export class JobProviderService {
     private readonly provider2: Provider2Strategy,
   ) {}
 
+  /**
+   * Fetches job offers from all available providers using the Strategy pattern.
+   * This approach allows for easy addition of new providers in the future.
+   * It iterates through the providers, fetches their jobs, and aggregates the results.
+   * Errors from individual providers are caught and logged without halting the entire process.
+   *
+   * @returns A promise that resolves to an array of all unified job offers.
+   */
   async fetchAll(): Promise<UnifiedJobOffer[]> {
     const providers: JobProvider[] = [this.provider1, this.provider2];
 
