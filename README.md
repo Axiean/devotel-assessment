@@ -1,98 +1,139 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+## Devotel Assessment: Data Transformation and API Integration
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project is a backend application built with NestJS that integrates with two external APIs to fetch job offers. The data is transformed into a unified structure, stored in a MySQL database, and exposed via a RESTful API with filtering and pagination.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+### Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Data Aggregation: Fetches job offers from two distinct provider APIs.
 
-## Project setup
+- Scalable Transformation: Uses a Strategy pattern to easily add new data providers with minimal code changes.
 
-```bash
-$ npm install
-```
+- Scheduled Synchronization: A cron job runs periodically to fetch and store new job offers, preventing duplicates.
 
-## Compile and run the project
+- Database Storage: Stores unified job offer data in a MySQL database using TypeORM.
 
-```bash
-# development
-$ npm run start
+- RESTful API: Exposes a /job-offer/list endpoint to retrieve and filter job data.
 
-# watch mode
-$ npm run start:dev
+- Filtering & Pagination: The API supports filtering by title, location, and salary range, along with pagination.
 
-# production mode
-$ npm run start:prod
-```
+- Robust Error Handling: Implements a global exception filter for consistent error responses.
 
-## Run tests
+- Validation: Uses DTOs and the ValidationPipe to validate incoming request data.
+
+- API Documentation: Auto-generated API documentation available via Swagger UI.
+
+- Comprehensive Testing: Includes unit, integration, and end-to-end (e2e) tests.
+
+---
+
+### Prerequisites
+
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/Axiean/devotel-assessment.git
+cd devotel-assessment
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+2. Install dependencies:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Environment Configuration
 
-## Resources
+This project uses environment variables for configuration. You will need to create a `.env.development` file in the project root.
 
-Check out a few resources that may come in handy when working with NestJS:
+1. Create the environment file from the example::
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+cp .env.example .env.development
+```
 
-## Support
+2. Edit the `.env.development` file:
+   Open the newly created `.env.development` file and fill in your database credentials.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#.env.development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASS=your_password
+DB_NAME=devotel_db
 
-## Stay in touch
+3. Create the database:
+   Connect to your MySQL server and run the following command to create the database:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+CREATE DATABASE `devotel_db` ;
+```
 
-## License
+### Running the Application
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This command starts the application in watch mode with hot-reloading enabled. The server will restart automatically when you make changes to the code.
+
+```bash
+npm run start:dev
+```
+
+The application will be running on http://localhost:3000
+
+#### Production Mode
+
+To build and run the application for production:
+
+```bash
+# 1. Build the project
+npm run build
+
+# 2. Start the production server
+npm run start:prod
+```
+
+### Running Tests
+
+#### All Tests
+
+To run all unit, integration, and end-to-end tests:
+
+```bash
+npm test
+```
+
+#### End-to-End (E2E) Tests
+
+To run only the end-to-end tests, which test the API endpoints:
+
+```bash
+npm run test:e2e
+```
+
+#### Test Coverage
+
+To generate a test coverage report:
+
+```bash
+npm run test:cov
+```
+
+The report will be generated in the coverage directory at the project root.
+
+---
+
+### API Documentation (Swagger)
+
+This project includes comprehensive, auto-generated API documentation using Swagger (OpenAPI).
+
+Once the application is running, you can access the interactive Swagger UI at the following URL:
+
+http://localhost:3000/api
+
+The documentation provides details on all available endpoints, request parameters, request bodies, and response schemas. You can also use it to send test requests directly to the API.

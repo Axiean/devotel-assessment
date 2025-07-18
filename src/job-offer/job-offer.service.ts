@@ -3,7 +3,7 @@ import { JobOffer } from './entities/job-offer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import { JobProviderService } from './providers/job-provider.service';
-import { GetJobOffersDto } from './dto';
+import { GetJobOffersDto, PaginatedJobOffersResponse } from './dto';
 
 @Injectable()
 export class JobOfferService {
@@ -13,7 +13,9 @@ export class JobOfferService {
     private readonly jobProviderService: JobProviderService,
   ) {}
 
-  async getJobOffers(getJobOffersDto: GetJobOffersDto) {
+  async getJobOffers(
+    getJobOffersDto: GetJobOffersDto,
+  ): Promise<PaginatedJobOffersResponse> {
     const {
       title,
       location,

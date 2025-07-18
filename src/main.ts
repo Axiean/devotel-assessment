@@ -24,17 +24,17 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Devotel')
     .setDescription('Devotel assessment API')
-    .addBearerAuth(
-      {
-        name: 'Authorization',
-        description: 'Please enter token ',
-        scheme: 'Bearer',
-        type: 'http',
-        in: 'Header',
-        bearerFormat: 'Bearer',
-      },
-      'access-token',
-    )
+    // .addBearerAuth(
+    //   {
+    //     name: 'Authorization',
+    //     description: 'Please enter token ',
+    //     scheme: 'Bearer',
+    //     type: 'http',
+    //     in: 'Header',
+    //     bearerFormat: 'Bearer',
+    //   },
+    //   'access-token',
+    // )
     .setVersion('0.1')
     .addServer('/')
     .build();
