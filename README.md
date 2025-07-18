@@ -73,6 +73,11 @@ DB_PORT=3306
 DB_USER=root
 DB_PASS=your_password
 DB_NAME=devotel_db
+
+PROVIDER1_API_URL=https://assignment.devotel.io/api/provider1/jobs
+PROVIDER2_API_URL=https://assignment.devotel.io/api/provider2/jobs
+
+SYNC_JOB_OFFERS_CRON_SCHEDULE=0 * * * *
 ```
 
 3. Create the database:
