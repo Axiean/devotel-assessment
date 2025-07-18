@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Provider2Strategy } from './provider2.strategy';
 import { UnifiedJobOffer } from '../types';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -8,8 +10,24 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 describe('Provider2Strategy', () => {
   let provider2Strategy: Provider2Strategy;
 
-  beforeEach(() => {
-    provider2Strategy = new Provider2Strategy();
+  const mockConfigService = {
+    get: jest
+      .fn()
+      .mockReturnValue('https://assignment.devotel.io/api/provider2/jobs'),
+  };
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        Provider2Strategy,
+        {
+          provide: ConfigService,
+          useValue: mockConfigService,
+        },
+      ],
+    }).compile();
+
+    provider2Strategy = module.get<Provider2Strategy>(Provider2Strategy);
   });
 
   afterEach(() => {

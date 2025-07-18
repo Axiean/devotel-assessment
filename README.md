@@ -14,7 +14,7 @@ This project is a backend application built with NestJS that integrates with two
 
 - Database Storage: Stores unified job offer data in a MySQL database using TypeORM.
 
-- RESTful API: Exposes a /job-offer/list endpoint to retrieve and filter job data.
+- RESTful API: Exposes a /job-offers endpoint to retrieve and filter job data.
 
 - Filtering & Pagination: The API supports filtering by title, location, and salary range, along with pagination.
 

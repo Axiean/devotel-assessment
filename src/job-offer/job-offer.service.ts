@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JobOffer } from './entities/job-offer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  DataSource,
   FindManyOptions,
   LessThanOrEqual,
   Like,
@@ -17,6 +18,7 @@ export class JobOfferService {
     @InjectRepository(JobOffer)
     private readonly repo: Repository<JobOffer>,
     private readonly jobProviderService: JobProviderService,
+    private readonly dataSource: DataSource,
   ) {}
 
   async getJobOffers(
@@ -61,13 +63,16 @@ export class JobOfferService {
   async syncAll() {
     const offers = await this.jobProviderService.fetchAll();
 
-    for (const offer of offers) {
-      const exists = await this.repo.findOneBy({
-        externalId: offer.externalId,
-      });
-      if (!exists) {
-        await this.repo.save(offer);
+    await this.dataSource.transaction(async (entityManager) => {
+      for (const offer of offers) {
+        const exists = await entityManager.findOneBy(JobOffer, {
+          externalId: offer.externalId,
+        });
+        if (!exists) {
+          const newOffer = entityManager.create(JobOffer, offer);
+          await entityManager.save(newOffer);
+        }
       }
-    }
+    });
   }
 }

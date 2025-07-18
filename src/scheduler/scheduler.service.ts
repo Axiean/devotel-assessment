@@ -15,7 +15,7 @@ export class SchedulerService {
 
     try {
       await this.syncAllJobOffers();
-      this.logger.log('Job offers synced successfully');
+      this.logger.log('✅ Job offers synced successfully');
     } catch (error) {
       this.logger.error('Failed to sync job offers', error);
     }

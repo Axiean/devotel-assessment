@@ -1,15 +1,34 @@
 import axios from 'axios';
 import { Provider1Strategy } from './provider1.strategy';
 import { UnifiedJobOffer } from '../types';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 
+// Mock the axios module
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Provider1Strategy', () => {
   let provider1Strategy: Provider1Strategy;
 
-  beforeEach(() => {
-    provider1Strategy = new Provider1Strategy();
+  const mockConfigService = {
+    get: jest
+      .fn()
+      .mockReturnValue('https://assignment.devotel.io/api/provider1/jobs'),
+  };
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        Provider1Strategy,
+        {
+          provide: ConfigService,
+          useValue: mockConfigService,
+        },
+      ],
+    }).compile();
+
+    provider1Strategy = module.get<Provider1Strategy>(Provider1Strategy);
   });
 
   afterEach(() => {
@@ -44,6 +63,7 @@ describe('Provider1Strategy', () => {
 
       const result: UnifiedJobOffer[] = await provider1Strategy.fetchJobs();
 
+      // Assert: Check if the transformation was successful
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual({
         title: 'Senior Software Engineer',

@@ -41,18 +41,16 @@ describe('JobOfferController (e2e)', () => {
     await app.close();
   });
 
-  it('/job-offer/list (GET) - should return job offers', () => {
+  it('/job-offers (GET) - should return job offers', () => {
     return request(app.getHttpServer())
-      .get('/job-offer/list')
+      .get('/job-offers')
       .expect(200)
       .expect(mockJobOfferService.getJobOffers);
   });
 
-  it('/job-offer/list (GET) - should pass valid query params to the service', async () => {
+  it('/job-offers (GET) - should pass valid query params to the service', async () => {
     const query = 'title=Engineer&location=Remote&page=2&limit=20';
-    await request(app.getHttpServer())
-      .get(`/job-offer/list?${query}`)
-      .expect(200);
+    await request(app.getHttpServer()).get(`/job-offers?${query}`).expect(200);
 
     expect(mockJobOfferService.getJobOffers).toHaveBeenCalledWith({
       title: 'Engineer',
@@ -62,9 +60,9 @@ describe('JobOfferController (e2e)', () => {
     });
   });
 
-  it('/job-offer/list (GET) - should return 400 for invalid query params', () => {
+  it('/job-offers (GET) - should return 400 for invalid query params', () => {
     return request(app.getHttpServer())
-      .get('/job-offer/list?limit=999')
+      .get('/job-offers?limit=999')
       .expect(400);
   });
 });

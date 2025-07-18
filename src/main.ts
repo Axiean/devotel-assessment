@@ -16,6 +16,8 @@ async function bootstrap() {
 
   app.use(helmet());
 
+  app.setGlobalPrefix('api');
+
   const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
 

@@ -6,6 +6,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { dataSourceOptions } from './config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -19,6 +20,11 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 60,
       },
     ]),
+
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
 
     JobOfferModule,
     SchedulerModule,

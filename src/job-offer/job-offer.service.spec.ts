@@ -7,6 +7,7 @@ import { Provider1Strategy } from './providers/provider1.strategy';
 import { Provider2Strategy } from './providers/provider2.strategy';
 import { GetJobOffersDto } from './dto/get-job-offers.dto';
 import { Repository } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 const mockJobProviderService = {
   fetchAll: jest.fn(),
@@ -26,6 +27,11 @@ describe('JobOfferService (Integration)', () => {
           synchronize: true,
         }),
         TypeOrmModule.forFeature([JobOffer]),
+
+        ConfigModule.forRoot({
+          isGlobal: true,
+          envFilePath: `.env.${process.env.NODE_ENV}`,
+        }),
       ],
       providers: [
         JobOfferService,
