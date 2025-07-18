@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { JobOffer } from './entities/job-offer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  LessThanOrEqual,
+  Like,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { JobProviderService } from './providers/job-provider.service';
 import { GetJobOffersDto, PaginatedJobOffersResponse } from './dto';
 
@@ -35,16 +41,16 @@ export class JobOfferService {
     };
 
     if (title) {
-      (query.where as any)['title'] = title;
+      (query.where as any)['title'] = Like(`%${title}%`);
     }
     if (location) {
-      (query.where as any)['location'] = location;
+      (query.where as any)['location'] = Like(`%${location}%`);
     }
     if (minSalary) {
-      (query.where as any)['salaryMin'] = minSalary;
+      (query.where as any)['salaryMin'] = MoreThanOrEqual(minSalary);
     }
     if (maxSalary) {
-      (query.where as any)['salaryMax'] = maxSalary;
+      (query.where as any)['salaryMax'] = LessThanOrEqual(maxSalary);
     }
 
     const [data, total] = await this.repo.findAndCount(query);
@@ -56,8 +62,6 @@ export class JobOfferService {
     const offers = await this.jobProviderService.fetchAll();
 
     for (const offer of offers) {
-      console.log(offer.externalId);
-
       const exists = await this.repo.findOneBy({
         externalId: offer.externalId,
       });

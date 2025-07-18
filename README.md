@@ -58,6 +58,10 @@ This project uses environment variables for configuration. You will need to crea
 cp .env.example .env.development
 ```
 
+For production deployments, it is best practice to use a separate configuration file. You should create a `.env.production` file in the project root.
+
+When you run npm run start:prod, the application will automatically load variables from this `.env.production` file. This allows you to use different, more secure database credentials and other settings for your live environment.
+
 2. Edit the `.env.development` file:
    Open the newly created `.env.development` file and fill in your database credentials.
 
