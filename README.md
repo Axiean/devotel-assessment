@@ -65,13 +65,15 @@ When you run npm run start:prod, the application will automatically load variabl
 2. Edit the `.env.development` file:
    Open the newly created `.env.development` file and fill in your database credentials.
 
-#.env.development
+```bash
+# .env.development
 PORT=3000
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
 DB_PASS=your_password
 DB_NAME=devotel_db
+```
 
 3. Create the database:
    Connect to your MySQL server and run the following command to create the database:
